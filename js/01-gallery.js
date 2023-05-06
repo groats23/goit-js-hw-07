@@ -31,13 +31,21 @@ function onPictureClick(evt) {
 
 function modalInteraction(image) {
   const instance = basicLightbox.create(
-    `<img src="${image}" width="800" height="600" />`
+    `<img src="${image}" width="800" height="600" />`,
+    {
+      onShow: instance => {
+        window.addEventListener('keydown', closeModal);
+      },
+      onClose: instance => {
+        window.removeEventListener('keydown', closeModal);
+      },
+    }
   );
   instance.show();
 
-  window.addEventListener('keydown', evt => {
+  function closeModal(evt) {
     if (evt.code === 'Escape') {
       instance.close();
     }
-  });
+  }
 }
